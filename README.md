@@ -13,7 +13,7 @@ Important : Currently most of the script will NOT work in "Studio mode".
 - [obs-websocket-py](https://github.com/Elektordi/obs-websocket-py) from Guillaume Genty a.k.a Elektordi
 
 
-### Python27 Installation and dependencies : 
+### Installation and dependencies : 
 - Install Python27
 - Open command prompt or a terminal (windows key + R, type "cmd" and enter)
 - Go to your Python27 folder in the command prompt (cd c:\Python27)
@@ -24,6 +24,13 @@ All the script requiere the python library obs-websocket-py
 ```
 python.exe -m pip install obs-websocket-py
 ```
+
+- Install [obs-websocket](https://github.com/Palakis/obs-websocket) for Obs Studio
+- Edit the websocket config like this and change your password 
+
+- ![](https://i.imgur.com/gOvPhwx.jpg)
+
+
 
 ### Python27 + Streamdeck Usage :
 - Execute the script with Pythonw.exe for silent execution (no console showing)
@@ -90,6 +97,4 @@ To start the script launch Freeze_Frame.py with a Streamdeck or with the Windows
 https://twitter.com/ProspereLucel/status/1153655792861626369
 
 ---
-
-
 More to come
