@@ -13,10 +13,6 @@ logging.basicConfig(level=logging.ERROR)
 
 #### CONFIG OBSWEBSOCKET ####
 from obswebsocket import obsws, requests, events
-
-host = "localhost"
-port = 4444
-password = "password"
 ws = obsws(host, port, password)
 ws.connect()
 
