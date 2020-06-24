@@ -1,4 +1,4 @@
-# Prospere Obs studio dirty scripts
+# Prospere dirty scripts for OBS
 Collection of dirty python script for Open Broadcast software.
 I'm not a professional developper, I do this on my free time for friends, I'm just a French guy who love "la bidouille" :)
 
