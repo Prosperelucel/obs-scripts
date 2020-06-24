@@ -1,5 +1,6 @@
-# obs-scripts
+# Prospere Obs studio dirty scripts
 Collection of dirty python script for Open Broadcast software.
+I'm not a professional developper, I do this on my free time for friends, I'm just a French guy who love "la bidouille" :)
 
 Important : Currently most of the script will NOT work in "Studio mode".
 
@@ -10,7 +11,27 @@ Important : Currently most of the script will NOT work in "Studio mode".
 - [obs-websocket](https://github.com/Palakis/obs-websocket) from [@LePalakis](https://twitter.com/LePalakis)
 - [obs-websocket-py](https://github.com/Elektordi/obs-websocket-py) from Guillaume Genty a.k.a Elektordi
 
+### Python27 Installation and dependencies : 
+- Install Python27
+- Open command prompt or a terminal (windows key + R, type "cmd" and enter)
+- Go to your Python27 folder in the command prompt (cd c:\Python27)
+
+All the script requiere the python library obs-websocket-py
+- type in the cmd
+
+```
+python.exe -m pip install obs-websocket-py
+```
+
+### Python27 + Streamdeck Usage :
+- Execute the script with Pythonw.exe for silent execution (no console showing)
+- On Windows explorer, right click on the python script, select "Open With" and "Choose another app"
+- Tick the box for permanently use the same app, go "find on the computer" in the bottom list and finaly select pythonw.exe in the c:\Python27 folder
+- Now simply add the main script to your Streamdeck using the app shortcut
+- Or you can add this line to your Streamdeck app launch button : "C:\Python27\pythonw.exe  C:\_Script\Yourscript.py"
+
 ---
+
 
 ## Sequence Scene
 Trigger a sequence of scenes regarding a list and a config file
