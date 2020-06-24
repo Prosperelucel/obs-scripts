@@ -4,12 +4,14 @@ I'm not a professional developper, I do this on my free time for friends, I'm ju
 
 Important : Currently most of the script will NOT work in "Studio mode".
 
+
 ### Requirement :
 - Windows 10
 - [OBS Studio](https://obsproject.com/)
 - [Python27](https://www.python.org/ftp/python/2.7/python-2.7.amd64.msi)
 - [obs-websocket](https://github.com/Palakis/obs-websocket) from [@LePalakis](https://twitter.com/LePalakis)
 - [obs-websocket-py](https://github.com/Elektordi/obs-websocket-py) from Guillaume Genty a.k.a Elektordi
+
 
 ### Python27 Installation and dependencies : 
 - Install Python27
@@ -28,10 +30,16 @@ python.exe -m pip install obs-websocket-py
 - On Windows explorer, right click on the python script, select "Open With" and "Choose another app"
 - Tick the box for permanently use the same app, go "find on the computer" in the bottom list and finaly select pythonw.exe in the c:\Python27 folder
 - Now simply add the main script to your Streamdeck using the app shortcut
-- Or you can add this line to your Streamdeck app launch button : "C:\Python27\pythonw.exe  C:\_Script\Yourscript.py"
+
+- Or if you don't want to change the windows default execution for python file you can add this line to your Streamdeck app launch button : 
+
+```
+"C:\Python27\pythonw.exe  C:\Script\Yourscript.py"
+```
+
+
 
 ---
-
 
 ## Sequence Scene
 Trigger a sequence of scenes regarding a list and a config file
