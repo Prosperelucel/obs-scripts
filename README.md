@@ -48,7 +48,7 @@ python.exe -m pip install obs-websocket-py
 
 ---
 
-## Sequence Scene
+## 01 - Sequence Scenes
 Trigger a sequence of scenes regarding a list and a config file
 #### Configuration:
 Edit Sequence_SCENES_Config.py and replace with your obs-websocket password
@@ -69,7 +69,7 @@ https://twitter.com/i/status/1153650170564894721
 
 ---
 
-## Freeze Frame
+## 02 - Freeze Frame
 Capture a picture of the current active scene and save it into a specific folder/file
 Then switch to a "freeze frame" scene
 
@@ -95,6 +95,35 @@ To start the script launch Freeze_Frame.py with a Streamdeck or with the Windows
 
 #### Example:
 https://twitter.com/ProspereLucel/status/1153655792861626369
+
+---
+
+## 03 - Random Text Generator
+Change the content of a Text source (GDI+) randomly regarding multiple text list.
+
+#### Script Configuration:
+Edit Random_Txt.py and replace with your obs-websocket password
+```
+host = "localhost"
+port = 4444
+password = "password"
+```
+edit the source_txt with yours
+```
+source_txt = "my_text_source"
+```
+edit the content of the 4 texts lists with your "funny words" lol xD
+If you want to use less list, leave at least two empty lines inside the .txt file otherwise the script will not work
+
+#### OBS Studio Configuration:
+- Create a text source with the source_txt name (ex : "my_text_source")
+- Right click and transform your source, Edit transform, set "Positional Alignment" to "Center"
+- Edit the text "Properties" and choose your text style and Alignment. 
+
+To start the script launch Random_Txt.py with a Streamdeck or with the Windows explorer
+
+#### Example:
+![](https://i.imgur.com/qfS9irb.jpg)
 
 ---
 More to come
