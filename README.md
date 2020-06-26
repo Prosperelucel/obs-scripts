@@ -1,4 +1,4 @@
-# Prospere Obs studio dirty scripts
+# Prospere dirty scripts for OBS
 Collection of dirty python script for Open Broadcast software.
 I'm not a professional developper, I do this on my free time for friends, I'm just a French guy who love "la bidouille" :)
 
@@ -13,7 +13,7 @@ Important : Currently most of the script will NOT work in "Studio mode".
 - [obs-websocket-py](https://github.com/Elektordi/obs-websocket-py) from Guillaume Genty a.k.a Elektordi
 
 
-### Python27 Installation and dependencies : 
+### Installation and dependencies : 
 - Install Python27
 - Open command prompt or a terminal (windows key + R, type "cmd" and enter)
 - Go to your Python27 folder in the command prompt (cd c:\Python27)
@@ -24,6 +24,13 @@ All the script requiere the python library obs-websocket-py
 ```
 python.exe -m pip install obs-websocket-py
 ```
+
+- Install [obs-websocket](https://github.com/Palakis/obs-websocket) for Obs Studio
+- Edit the websocket config like this and change your password 
+
+- ![](https://i.imgur.com/gOvPhwx.jpg)
+
+
 
 ### Python27 + Streamdeck Usage :
 - Execute the script with Pythonw.exe for silent execution (no console showing)
@@ -41,7 +48,7 @@ python.exe -m pip install obs-websocket-py
 
 ---
 
-## Sequence Scene
+## 01 - Sequence Scenes
 Trigger a sequence of scenes regarding a list and a config file
 #### Configuration:
 Edit Sequence_SCENES_Config.py and replace with your obs-websocket password
@@ -62,7 +69,7 @@ https://twitter.com/i/status/1153650170564894721
 
 ---
 
-## Freeze Frame
+## 02 - Freeze Frame
 Capture a picture of the current active scene and save it into a specific folder/file
 Then switch to a "freeze frame" scene
 
@@ -91,5 +98,32 @@ https://twitter.com/ProspereLucel/status/1153655792861626369
 
 ---
 
+## 03 - Random Text Generator
+Change the content of a Text source (GDI+) randomly regarding multiple text list.
 
+#### Script Configuration:
+Edit Random_Txt.py and replace with your obs-websocket password
+```
+host = "localhost"
+port = 4444
+password = "password"
+```
+edit the source_txt with yours
+```
+source_txt = "my_text_source"
+```
+edit the content of the 4 texts lists with your "funny words" lol xD
+If you want to use less list, leave at least two empty lines inside the .txt file otherwise the script will not work
+
+#### OBS Studio Configuration:
+- Create a text source with the source_txt name (ex : "my_text_source")
+- Right click and transform your source, Edit transform, set "Positional Alignment" to "Center"
+- Edit the text "Properties" and choose your text style and Alignment. 
+
+To start the script launch Random_Txt.py with a Streamdeck or with the Windows explorer
+
+#### Example:
+![](https://i.imgur.com/qfS9irb.jpg)
+
+---
 More to come
