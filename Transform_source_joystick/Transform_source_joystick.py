@@ -24,11 +24,11 @@ logging.basicConfig(level=logging.ERROR)
 
 def sendpacket(packet):
     ws.send(packet)
-    time.sleep(0.01)
+    time.sleep(0.02)
 
 def sendcall(packet):
     ws.call(packet)
-    time.sleep(0.01)
+    time.sleep(0.02)
 
 ws = obsws(host, port, password)
 ws.connect()
@@ -102,8 +102,6 @@ while True:
     if pygame.event.get():
         timer_sleep = 0
         command = True
-
-    print timer_sleep
 
     if command:
         packet01 = {"request-type": "SetSceneItemPosition", "scene-name": scene, "item": source_name, "x": old_pos_x, "y": old_pos_y}
