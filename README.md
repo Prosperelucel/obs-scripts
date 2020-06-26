@@ -126,4 +126,43 @@ To start the script launch Random_Txt.py with a Streamdeck or with the Windows e
 ![](https://i.imgur.com/qfS9irb.jpg)
 
 ---
+
+## 04 - Transform source with Gamepad/Joystick
+
+#### Script Configuration:
+Edit the script and replace with your obs-websocket password
+```
+host = "localhost"
+port = 4444
+password = "password"
+```
+edit the "scene" and the source you want to move with yours
+```
+scene = "Scene A"
+source_name = "source_name"
+```
+
+#### Python requirement:
+- [pygame](https://www.pygame.org/)
+```
+Python.exe -m pip install pygame==2.0.0.dev10
+```
+To start the script launch Transform_source_joystick.py with a Streamdeck or with the Windows explorer
+
+
+#### Xbox one controller Layout:
+- Move : Left joystick and left Dpad
+- Rotation : Right joystick (axis X)
+- Zoom in : RT
+- Zoom out : LT
+- Reset Rotation : X
+- Reset Position and Rotation : B
+- Exit script : Select
+
+
+
+---
+
+
+
 More to come
