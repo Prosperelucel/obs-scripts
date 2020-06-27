@@ -93,7 +93,6 @@ command_gamepad = False
 pygame.init()
 
 while True:
-    time.sleep(0.025)
 
     if not pygame.event.get():
         if command_gamepad:
@@ -101,11 +100,14 @@ while True:
         else:
             command = False
 
+    time.sleep(0.03)
+
     if pygame.event.get():
         command = True
 
     if command:
         command_gamepad = False
+        command = False
         packet01 = {"request-type": "SetSceneItemPosition", "scene-name": scene, "item": source_name, "x": old_pos_x, "y": old_pos_y}
         packet02 = {"request-type": "SetSceneItemTransform", "scene-name": scene, "item": source_name, "x-scale": old_scale_x, "y-scale": old_scale_y, "rotation": old_rotation}
         packets = [packet01, packet02]
