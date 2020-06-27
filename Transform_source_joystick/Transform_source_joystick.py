@@ -31,8 +31,8 @@ def sendcall(packet):
 ws = obsws(host, port, password)
 ws.connect()
 
-incremental_x = 4.0
-incremental_y = 4.0
+incremental_x = 5
+incremental_y = 5
 incremental_z = 0.01
 inc_rotation = 1
 
