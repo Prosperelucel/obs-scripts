@@ -24,11 +24,9 @@ logging.basicConfig(level=logging.ERROR)
 
 def sendpacket(packet):
     ws.send(packet)
-    time.sleep(0.02)
 
 def sendcall(packet):
     ws.call(packet)
-    time.sleep(0.02)
 
 ws = obsws(host, port, password)
 ws.connect()
@@ -51,6 +49,7 @@ old_rotation = item_list[u'rotation']
 old_bounds = item_list[u'bounds']
 old_bounds_x = old_bounds['x']
 old_bounds_y = old_bounds['y']
+source_visibility = item_list[u'visible']
 
 reset_pos_x = old_pos_x
 reset_pos_y = old_pos_y
@@ -88,22 +87,25 @@ zoom_out = False
 rotation_down = False
 rotation_up = False
 timer_sleep = 0
-command = True
+command = False
+command_gamepad = False
 
 pygame.init()
 
 while True:
+    time.sleep(0.025)
 
     if not pygame.event.get():
-        timer_sleep += 1
-        if timer_sleep > 1000:
+        if command_gamepad:
+            command = True
+        else:
             command = False
-    time.sleep(0.01)
+
     if pygame.event.get():
-        timer_sleep = 0
         command = True
 
     if command:
+        command_gamepad = False
         packet01 = {"request-type": "SetSceneItemPosition", "scene-name": scene, "item": source_name, "x": old_pos_x, "y": old_pos_y}
         packet02 = {"request-type": "SetSceneItemTransform", "scene-name": scene, "item": source_name, "x-scale": old_scale_x, "y-scale": old_scale_y, "rotation": old_rotation}
         packets = [packet01, packet02]
@@ -144,6 +146,7 @@ while True:
         axis_rotation = joystick.get_axis(3)
         button1 = joystick.get_button(1)
         button2 = joystick.get_button(2)
+        button3 = joystick.get_button(3)
         button_select = joystick.get_button(6)
         dpad = joystick.get_hat(0)
         dpad_x = dpad[0]
@@ -152,35 +155,47 @@ while True:
         if axis_rotation > 0.3:
             rotation_up = True
             rotation_down = False
+            command_gamepad = True
         if axis_rotation < -0.3:
             rotation_up = False
             rotation_down = True
+            command_gamepad = True
         if axis_rotation > -0.3 and axis_rotation < 0.3:
             rotation_down = False
             rotation_up = False
 
-        if axis_zoom_in > -0.9:
+        if axis_zoom_in > -0.8:
             zoom_in = True
             zoom_out = False
-        if axis_zoom_out > -0.9:
+            command_gamepad = True
+        if axis_zoom_out > -0.8:
             zoom_in = False
             zoom_out = True
-        if axis_zoom_out < -0.9 and axis_zoom_in < -0.9 :
+            command_gamepad = True
+        if axis_zoom_out < -0.8 and axis_zoom_in < -0.8 :
             zoom_in = False
             zoom_out = False
 
         if axis_x > 0.3 or dpad_x > 0: #Right
             droite = True
             gauche = False
+            command_gamepad = True
+
         if axis_x < -0.3 or dpad_x < 0: #Left
             droite = False
             gauche = True
+            command_gamepad = True
+
         if axis_y < -0.3 or dpad_y > 0: #Top
             haut = True
             bas = False
+            command_gamepad = True
+
         if axis_y > 0.3 or dpad_y < 0: #Bot
             haut = False
             bas = True
+            command_gamepad = True
+
         if axis_y < 0.3 and axis_y > -0.3 and axis_x < 0.3 and axis_x > -0.3 and dpad_x < 0.1 and dpad_x > -0.1 and dpad_y < 0.1 and dpad_y > -0.1: #center
             haut = False
             bas = False
@@ -188,13 +203,37 @@ while True:
             gauche = False
 
         if button1 == 1:
+            command_gamepad = True
             old_pos_x = reset_pos_x
             old_pos_y = reset_pos_y
             old_scale_x = reset_scale_x
             old_scale_y = reset_scale_y
             old_rotation = reset_rotation
+
+
         if button2 == 1:
+            command_gamepad = True
             old_rotation = reset_rotation
+
+        if button3 == 1:
+            if source_visibility:
+                #ws.call(requests.SetSceneItemRender(scene_name=scene, source=source_name, render=False))
+                #sendpacket({"request-type": "SetSceneItemRender", "scene-name": scene, "source": source_name, "render":False})
+
+                packet = {"request-type": "SetSceneItemRender", "scene-name": scene, "source": source_name, "render":False}
+                t = Thread(target=sendpacket, args=(packet,))
+                t.start()
+                source_visibility = False
+                t.join(1)
+            else:
+                #ws.call(requests.SetSceneItemRender(scene_name=scene, source=source_name, render=True))
+                #sendpacket({"request-type": "SetSceneItemRender", "scene-name": scene, "source": source_name, "render": True})
+
+                packet = {"request-type": "SetSceneItemRender", "scene-name": scene, "source": source_name, "render":True}
+                t = Thread(target=sendpacket, args=(packet,))
+                t.start()
+                source_visibility = True
+                t.join(1)
 
         if button_select == 1:
             old_pos_x = reset_pos_x
