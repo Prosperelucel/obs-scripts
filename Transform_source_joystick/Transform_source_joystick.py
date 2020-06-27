@@ -5,8 +5,8 @@ host = "localhost"
 port = 4444
 password = "password"
 #### OBS CONFIG ####
-scene = "Scene A"
-source_name = "Webcam"
+scene = "Gaming"
+source_name = "Edit_Camera+Cadre"
 
 import sys
 import logging
@@ -18,6 +18,7 @@ from obswebsocket import obsws, requests, events
 import pygame, sys,os
 from pygame.locals import *
 
+
 os.chdir(sys.path[0])
 sys.path.append('../')
 logging.basicConfig(level=logging.ERROR)
@@ -27,6 +28,13 @@ def sendpacket(packet):
 
 def sendcall(packet):
     ws.call(packet)
+
+def join(thread):
+    print thread
+    print thread.isAlive()
+    thread.join()
+    print thread.isAlive()
+
 
 ws = obsws(host, port, password)
 ws.connect()
@@ -89,6 +97,8 @@ rotation_up = False
 timer_sleep = 0
 command = False
 command_gamepad = False
+command_count = 0
+
 
 pygame.init()
 
@@ -100,20 +110,29 @@ while True:
         else:
             command = False
 
-    time.sleep(0.03)
+    time.sleep(0.01)
 
     if pygame.event.get():
         command = True
 
     if command:
+
         command_gamepad = False
         command = False
         packet01 = {"request-type": "SetSceneItemPosition", "scene-name": scene, "item": source_name, "x": old_pos_x, "y": old_pos_y}
         packet02 = {"request-type": "SetSceneItemTransform", "scene-name": scene, "item": source_name, "x-scale": old_scale_x, "y-scale": old_scale_y, "rotation": old_rotation}
-        packets = [packet01, packet02]
-        for packet in packets:
-            t = Thread(target=sendpacket, args=(packet,))
-            t.start()
+        t01 = Thread(target=sendpacket, args=(packet01,))
+        t02 = Thread(target=sendpacket, args=(packet02,))
+        t01.start()
+        t02.start()
+
+
+        packet03 = [t01, t02]
+        for packet in packet03:
+            t03 = Thread(target=join, args=(packet,))
+            t03.start()
+
+
 
     if droite:
         old_pos_x += incremental_x
