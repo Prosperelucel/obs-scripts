@@ -114,6 +114,8 @@ command = False
 command_gamepad = False
 command_filter = False
 command_count = 0
+invert_x = False
+invert_y = False
 
 
 pygame.init()
@@ -160,12 +162,43 @@ while True:
         old_pos_y -= incremental_y
     if bas:
         old_pos_y += incremental_y
+
     if zoom_in:
-        old_scale_x += incremental_z
-        old_scale_y += incremental_z
+        print old_scale_x
+        print old_scale_y
+        if invert_x:
+            old_scale_x -= incremental_z
+            old_scale_y += incremental_z
+
+        if invert_y:
+            old_scale_x += incremental_z
+            old_scale_y -= incremental_z
+
+        if invert_y and invert_x:
+            old_scale_x -= incremental_z
+            old_scale_y -= incremental_z
+
+        if not invert_y and not invert_x:
+            old_scale_x += incremental_z
+            old_scale_y += incremental_z
+
     if zoom_out:
-        old_scale_x -= incremental_z
-        old_scale_y -= incremental_z
+        if invert_x:
+            old_scale_x += incremental_z
+            old_scale_y -= incremental_z
+
+        if invert_y:
+            old_scale_x -= incremental_z
+            old_scale_y += incremental_z
+
+        if invert_y and invert_x:
+            old_scale_x += incremental_z
+            old_scale_y += incremental_z
+
+        if not invert_y and not invert_x:
+            old_scale_x -= incremental_z
+            old_scale_y -= incremental_z
+
     if rotation_up:
         old_rotation += inc_rotation
     if rotation_down:
@@ -299,11 +332,21 @@ while True:
 
         #Invert X scale
         if buttonLT == 1:
+            time.sleep(0.1)
+            if not invert_x:
+                invert_x = True
+            else:
+                invert_x = False
             command_gamepad = True
             old_scale_x = -old_scale_x
 
         #Invert Y scale
         if buttonRT == 1:
+            time.sleep(0.1)
+            if not invert_y:
+                invert_y = True
+            else:
+                invert_y = False
             command_gamepad = True
             old_scale_y = -old_scale_y
 
@@ -325,11 +368,12 @@ while True:
             old_rotation = reset_rotation
             ws.call(requests.SetSceneItemPosition(scene_name=scene, item=source_name, x=old_pos_x, y=old_pos_y))
             ws.call(requests.SetSceneItemTransform(scene_name=scene, item=source_name, x_scale=old_scale_x,y_scale=old_scale_y, rotation=old_rotation))
+            ws.disconnect()
             exit()
 
     if joystick_count == 0:
-        exit()
         ws.disconnect()
+        exit()
 
     #clock.tick(120)
 
