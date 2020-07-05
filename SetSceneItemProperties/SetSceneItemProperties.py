@@ -19,8 +19,8 @@ crop_bot = 0
 crop_left = 0
 crop_right = 0
 bounds = "OBS_BOUNDS_NONE" ###"OBS_BOUNDS_STRETCH", "OBS_BOUNDS_SCALE_INNER", "OBS_BOUNDS_SCALE_OUTER", "OBS_BOUNDS_SCALE_TO_WIDTH", "OBS_BOUNDS_SCALE_TO_HEIGHT", "OBS_BOUNDS_MAX_ONLY" or "OBS_BOUNDS_NONE".
-bounds_x = 4
-bounds_y = 4
+bounds_x = 1920
+bounds_y = 1080
 #bounds alignment
 b_alignment = 0
 #position alignment
