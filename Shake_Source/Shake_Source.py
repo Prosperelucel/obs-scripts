@@ -106,23 +106,61 @@ bounds_y = 1080
 b_alignment = 0
 p_alignment = 0
 
-check_toggle()
+###ALIGNMENT TYPE :
+### 0 = Center
+### 1 = Center left
+### 2 = Center Right
+### 3 =
+### 4 = Top Center
+### 5 = Top Left
+### 6 = Top Right
+### 7 =
+### 8 = Bottom Center
+### 9 = Bottom Left
+### 10 = Bottom Right
+### 11 =
+#### END SOURCE CONFIG ####
 
+
+check_toggle()
 if toggle == 1:
     set_toggle(0)
     exit()
 set_toggle(1)
 
 while True:
+    time.sleep(timer)
     check_toggle()
     if toggle == 0:
+        pos_x = old_pos_x
+        pos_y = old_pos_y
+        scale_x = old_scale_x
+        scale_y = old_scale_y
+        rotation = old_rotation
+        sendthread({"request-type": "SetSceneItemProperties",
+                    "scene-name": scene,
+                    "item": source_name,
+                    "position": {"x": pos_x,
+                                 "y": pos_y,
+                                 "alignment": p_alignment},
+                    "rotation": rotation,
+                    "scale": {"x": scale_x,
+                              "y": scale_y},
+                    "bounds": {"alignment": b_alignment,
+                               "type": bounds,
+                               "x": bounds_x,
+                               "y": bounds_y},
+                    "locked": locked,
+                    "crop": {"bottom": crop_bot,
+                             "left": crop_left,
+                             "right": crop_right,
+                             "top": crop_top},
+                    "visible": visible})
         exit()
+
     pos_x = old_pos_x + random.randint(-random_position,random_position)
     pos_y = old_pos_y + random.randint(-random_position,random_position)
     rotation = old_rotation + random.randint(-random_rotation,random_rotation)
-
-    time.sleep(timer)
-
     sendthread({"request-type": "SetSceneItemProperties",
                 "scene-name": scene,
                 "item": source_name,
