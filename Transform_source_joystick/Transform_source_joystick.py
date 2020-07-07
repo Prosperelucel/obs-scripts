@@ -5,8 +5,8 @@ host = "localhost"
 port = 4444
 password = "password"
 #### OBS CONFIG ####
-scene = "Gaming"
-source_name = "Edit_Camera+Cadre"
+scene = "Scene_name"
+source_name = "Source_Name"
 
 import sys
 import logging
@@ -61,15 +61,17 @@ filter_state = ws.call(requests.GetSourceFilters(sourceName=source_name))
 filter_list = filter_state.datain
 #print filter_list, "filter_list"
 filter_type = filter_list[u'filters']
-#print filter_type,"filter_type"
-filter_name = filter_type[0]
-#print filter_name, "filter_name"
-filter_name = filter_name[u'name']
-#print filter_name, "filter_name"
-filter_visibility = filter_type[0]
-#print filter_visibility, "filter_visibility"
-filter_visibility = filter_visibility[u'enabled']
-#print filter_visibility, "filter_visibility"
+if filter_type:
+    #print filter_type,"filter_type"
+    filter_name = filter_type[0]
+    #print filter_name, "filter_name"
+    filter_name = filter_name[u'name']
+    #print filter_name, "filter_name"
+    filter_visibility = filter_type[0]
+    #print filter_visibility, "filter_visibility"
+    filter_visibility = filter_visibility[u'enabled']
+    #print filter_visibility, "filter_visibility"
+    filteronsource = True
 
 item_list = item_state.datain
 old_position = item_list[u'position']
@@ -134,6 +136,7 @@ command_count = 0
 invert_x = False
 invert_y = False
 command_reset = False
+filteronsource = False
 packets = []
 threads = []
 pygame.init()
@@ -344,12 +347,13 @@ while True:
 
         #Toggle Filter
         if button_start == 1:
-            if filter_visibility:
-                filter_visibility = False
-                callthread(requests.SetSourceFilterVisibility(sourceName=source_name, filterName=filter_name,filterEnabled=filter_visibility))
-            else:
-                filter_visibility = True
-                callthread(requests.SetSourceFilterVisibility(sourceName=source_name, filterName=filter_name,filterEnabled=filter_visibility))
+            if filteronsource:
+                if filter_visibility:
+                    filter_visibility = False
+                    callthread(requests.SetSourceFilterVisibility(sourceName=source_name, filterName=filter_name,filterEnabled=filter_visibility))
+                else:
+                    filter_visibility = True
+                    callthread(requests.SetSourceFilterVisibility(sourceName=source_name, filterName=filter_name,filterEnabled=filter_visibility))
 
         #Exit Script / Reset Source
         if button_select == 1:
