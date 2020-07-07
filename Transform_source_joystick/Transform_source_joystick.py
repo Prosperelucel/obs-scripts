@@ -13,6 +13,7 @@ import logging
 import os
 import random
 import time
+import threading
 from threading import Thread
 from obswebsocket import obsws, requests, events
 import pygame, sys,os
@@ -20,7 +21,21 @@ from pygame.locals import *
 
 os.chdir(sys.path[0])
 sys.path.append('../')
-#logging.basicConfig(level=logging.ERROR)
+#logging.basicConfig(level=logging.DEBUG)
+
+
+
+def sendthread(packet):
+    #print (threading.activeCount())
+    #if threading.activeCount() < 12:
+    t = Thread(target=sendpacket, args=(packet,))
+    t.start()
+
+
+def callthread(packet):
+    t = Thread(target=sendcall, args=(packet,))
+    t.start()
+    t.join()
 
 def sendpacket(packet):
     ws.send(packet)
@@ -28,16 +43,17 @@ def sendpacket(packet):
 def sendcall(packet):
     ws.call(packet)
 
-def join(thread):
-    thread.join()
+def join(t):
+    if not t.isAlive():
+        t.join()
 
 ws = obsws(host, port, password)
 ws.connect()
 
-incremental_x = 5
-incremental_y = 5
-incremental_z = 0.01
-inc_rotation = 1
+incremental_x = 20
+incremental_y = 20
+incremental_z = 0.05
+inc_rotation = 2
 
 ###get value from the source
 item_state = ws.call(requests.GetSceneItemProperties(scene_name=scene, item=source_name))
@@ -81,6 +97,7 @@ reset_scale_y = old_scale_y
 reset_rotation = old_rotation
 reset_bounds_x = old_bounds_x
 reset_bounds_y = old_bounds_y
+reset_visibility = source_visibility
 
 #print ("ITEM_STATE----------------")
 #print (item_state)
@@ -116,43 +133,32 @@ command_filter = False
 command_count = 0
 invert_x = False
 invert_y = False
-
-
+command_reset = False
+packets = []
+threads = []
 pygame.init()
-
 while True:
+
     if not pygame.event.get():
         if command_gamepad:
             command = True
         else:
             command = False
 
-    time.sleep(0.05)
+    time.sleep(0.035)
 
     if pygame.event.get():
         command = True
 
     if command:
-
         command_gamepad = False
         command = False
-        packet01 = {"request-type": "SetSceneItemPosition", "scene-name": scene, "item": source_name, "x": old_pos_x, "y": old_pos_y}
-        packet02 = {"request-type": "SetSceneItemTransform", "scene-name": scene, "item": source_name, "x-scale": old_scale_x, "y-scale": old_scale_y, "rotation": old_rotation}
-        t01 = Thread(target=sendpacket, args=(packet01,))
-        t02 = Thread(target=sendpacket, args=(packet02,))
-        t01.start()
-        t02.start()
-        #if command_filter:
-            #ws.call(requests.SetSourceFilterVisibility(sourceName=source_name,filterName=filter_name,filterEnabled=filter_visibility))
-            #packet03 = {"request-type": "SetSourceFilterVisibility", "sourceName": source_name, "filterName": filter_name, "filterEnabled": filter_visibility}
-            #t03 = Thread(target=sendpacket, args=(packet03,))
-            #t03.start()
-            #command_filter = False
-
-        packets = [t01, t02]
-        for packet in packets:
-            t = Thread(target=join, args=(packet,))
-            t.start()
+        packet01 = {"request-type": "SetSceneItemProperties", "scene-name": scene, "item": source_name,"position": {"x": old_pos_x,"y": old_pos_y},"scale": {"x": old_scale_x,"y": old_scale_y},"rotation": old_rotation,"visible": source_visibility}
+        sendthread(packet01)
+        if command_reset:
+            time.sleep(2)
+            ws.disconnect()
+            exit()
 
     if droite:
         old_pos_x += incremental_x
@@ -164,8 +170,6 @@ while True:
         old_pos_y += incremental_y
 
     if zoom_in:
-        print old_scale_x
-        print old_scale_y
         if invert_x:
             old_scale_x -= incremental_z
             old_scale_y += incremental_z
@@ -311,24 +315,12 @@ while True:
 
         #ToggleVisibility
         if button_A == 1:
+            command_gamepad = True
             if source_visibility:
-                #ws.call(requests.SetSceneItemRender(scene_name=scene, source=source_name, render=False))
-                #sendpacket({"request-type": "SetSceneItemRender", "scene-name": scene, "source": source_name, "render":False})
-
-                packet = {"request-type": "SetSceneItemRender", "scene-name": scene, "source": source_name, "render":False}
-                t = Thread(target=sendpacket, args=(packet,))
-                t.start()
                 source_visibility = False
-                t.join(1)
             else:
-                #ws.call(requests.SetSceneItemRender(scene_name=scene, source=source_name, render=True))
-                #sendpacket({"request-type": "SetSceneItemRender", "scene-name": scene, "source": source_name, "render": True})
-
-                packet = {"request-type": "SetSceneItemRender", "scene-name": scene, "source": source_name, "render":True}
-                t = Thread(target=sendpacket, args=(packet,))
-                t.start()
                 source_visibility = True
-                t.join(1)
+
 
         #Invert X scale
         if buttonLT == 1:
@@ -350,26 +342,23 @@ while True:
             command_gamepad = True
             old_scale_y = -old_scale_y
 
-        #Invert start
+        #Toggle Filter
         if button_start == 1:
             if filter_visibility:
                 filter_visibility = False
-                ws.call(requests.SetSourceFilterVisibility(sourceName=source_name, filterName=filter_name,filterEnabled=filter_visibility))
+                callthread(requests.SetSourceFilterVisibility(sourceName=source_name, filterName=filter_name,filterEnabled=filter_visibility))
             else:
                 filter_visibility = True
-                ws.call(requests.SetSourceFilterVisibility(sourceName=source_name, filterName=filter_name,filterEnabled=filter_visibility))
+                callthread(requests.SetSourceFilterVisibility(sourceName=source_name, filterName=filter_name,filterEnabled=filter_visibility))
 
         #Exit Script / Reset Source
         if button_select == 1:
             old_pos_x = reset_pos_x
             old_pos_y = reset_pos_y
-            old_scale_x = reset_scale_x
             old_scale_y = reset_scale_y
+            old_scale_x = reset_scale_x
             old_rotation = reset_rotation
-            ws.call(requests.SetSceneItemPosition(scene_name=scene, item=source_name, x=old_pos_x, y=old_pos_y))
-            ws.call(requests.SetSceneItemTransform(scene_name=scene, item=source_name, x_scale=old_scale_x,y_scale=old_scale_y, rotation=old_rotation))
-            ws.disconnect()
-            exit()
+            command_reset = True
 
     if joystick_count == 0:
         ws.disconnect()
