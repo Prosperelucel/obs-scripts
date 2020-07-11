@@ -141,6 +141,8 @@ edit the "scene" and the source you want to move with yours
 scene = "Scene A"
 source_name = "source_name"
 ```
+#### OBS Studio Configuration:
+- Right click on the source and setup transformation settings to "No Bounds" and "Center alignement"
 
 #### Python requirement:
 - [pygame](https://www.pygame.org/)
@@ -151,18 +153,47 @@ To start the script launch Transform_source_joystick.py with a Streamdeck or wit
 
 
 #### Xbox one controller Layout:
-- Move : Left joystick and left Dpad
-- Rotation : Right joystick (axis X)
-- Zoom in : RT
-- Zoom out : LT
-- Reset Rotation : X
-- Reset Position and Rotation : B
-- Exit script : Select
-
-
+- Left Stick / Dpad : Move source
+- Right Stick : Rotation
+- A : Toggle visibility
+- B : Reset Position
+- X : Reset Rotation
+- Y : Reset Scale
+- LB : Mirroir Scale X
+- RB : Mirroir Scale Y
+- LT : Zoom Out
+- RT : Zoom In
+- Start : Toggle on/off filter (last filter on the source)
+- Select : Reset + exit
 
 ---
 
+## 05 - Shake Source
+Create a shake effect on a source
+
+#### Script Configuration:
+Edit the script and replace with your config
+```
+#### CONFIG ####
+host = "localhost"
+port = 4444
+password = "password"
+#### OBS CONFIG ####
+scene = "Scene_name"
+source_name = "Source_Name"
+random_position = 10
+random_rotation = 5
+toggle_txt = "Shake_Source_Toggle.txt"
+timer = 0.02
+```
+#### OBS Studio Configuration:
+- Right click on the source and setup transformation settings to "No Bounds" and "Center alignement"
+
+#### Usage :
+- To start the script launch Shake_Source.py with a Streamdeck or with the Windows explorer
+- To stop relaunch the script
+
+---
 
 
 More to come
