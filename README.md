@@ -195,5 +195,24 @@ timer = 0.02
 
 ---
 
+## 06 - Disable_all_sources
+Instant disables all sources on a scene. You can set an "exception list" to not disable certain sources
+
+#### Script Configuration:
+Edit the script and replace with your config
+```
+scene = "Scene_name"
+exception_list = ["not_this_source", "not_this_one","not_me"]
+host = "localhost"
+port = 4444
+password = "password"
+```
+
+#### Usage :
+- To start the script launch Disable_all_sources.py with a Streamdeck or with the Windows explorer
+
+---
+
+
 
 More to come
