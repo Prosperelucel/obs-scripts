@@ -247,4 +247,9 @@ rng_txt = "Sequence_SOURCES_RNG.txt"
 
 ---
 
+## Follow me :
+[@Prosperelucel](https://twitter.com/ProspereLucel)
+[Prospere on Twitch](https://twitch.tv/prospere)
+[My Discord](https://discord.gg/ac2xDrJ)
+
 More to come
