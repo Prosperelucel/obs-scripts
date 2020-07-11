@@ -243,7 +243,7 @@ rng_txt = "Sequence_SOURCES_RNG.txt"
 - To start the script launch Sequences_SOURCES.py with a Streamdeck or with the Windows explorer
 - To stop relaunch the script (if repeat or random mode)
 
-- ![](https://i.imgur.com/2kkTgPu.gif)
+![](https://i.imgur.com/2kkTgPu.gif)
 
 ---
 
