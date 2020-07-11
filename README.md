@@ -166,7 +166,7 @@ To start the script launch Transform_source_joystick.py with a Streamdeck or wit
 - Select : Reset + exit
 
 #### Example:
-![](https://imgur.com/TFPo3kY)
+![](https://imgur.com/TFPo3kY.gif)
 ---
 
 ## 05 - Shake Source
