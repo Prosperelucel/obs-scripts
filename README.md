@@ -151,7 +151,6 @@ Python.exe -m pip install pygame==2.0.0.dev10
 ```
 To start the script launch Transform_source_joystick.py with a Streamdeck or with the Windows explorer
 
-
 #### Xbox one controller Layout:
 - Left Stick / Dpad : Move source
 - Right Stick : Rotation
@@ -166,6 +165,8 @@ To start the script launch Transform_source_joystick.py with a Streamdeck or wit
 - Start : Toggle on/off filter (last filter on the source)
 - Select : Reset + exit
 
+#### Example:
+![](https://imgur.com/TFPo3kY)
 ---
 
 ## 05 - Shake Source
