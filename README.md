@@ -213,6 +213,38 @@ password = "password"
 
 ---
 
+## 07 - Sequence Sources
+Toggle visibility for a sequence of sources, you can set it to Random or repeat or play once
 
+#### Script Configuration:
+Edit the script and replace with your config
+```
+########################################################################################
+#######################################CONFIG BLOCK#####################################
+scene = "Scene_name"
+sources_list = ["01", "02", "03", "04", "05","06","07","08"]
+transition_tempo = 0.1
+random_mode = True #False : Sequence mode / True : Random Mode
+
+repeat_mode = True #(Sequence mode only) False : Play sequence one time / True : Loop Mode for sequence
+clean_sources_at_start = True #Disable all sources in list at start
+
+host = "localhost"
+port = 4444
+password = "password"
+
+toggle_txt = "Sequence_SOURCES_Toggle.txt"
+rng_txt = "Sequence_SOURCES_RNG.txt"
+########################################################################################
+########################################################################################
+```
+
+#### Usage :
+- To start the script launch Sequences_SOURCES.py with a Streamdeck or with the Windows explorer
+- To stop relaunch the script (if repeat or random mode)
+
+- ![](https://i.imgur.com/2kkTgPu.gif)
+
+---
 
 More to come
