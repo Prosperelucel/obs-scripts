@@ -136,7 +136,6 @@ command_count = 0
 invert_x = False
 invert_y = False
 command_reset = False
-filteronsource = False
 packets = []
 threads = []
 pygame.init()
